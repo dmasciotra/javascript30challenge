@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+  <h1>Enter the code.....</h1>
+
+  <script>
+    //const secretCode = ["1", "2", "ArrowUp"];
+
+    const secretCode = ["ArrowUp", "ArrowUp", "ArrowDown","ArrowDown", "ArrowLeft", "ArrowRight","ArrowLeft", "ArrowRight", "b", "a", "Enter"];
+    let currentInputIndex = 0;
+
+    function HandleKeyPress(e) {
+      if (secretCode[currentInputIndex] === e.key) {
+        currentInputIndex = currentInputIndex + 1;
+        if (currentInputIndex === secretCode.length) {
+          cornify_add();
+          currentInputIndex = 0;
+        }
+      }
+      else {
+        currentInputIndex = 0;
+      }
+    }
+
+    document.addEventListener('keydown', HandleKeyPress);
+
+  </script>
+</body>
+</html>
