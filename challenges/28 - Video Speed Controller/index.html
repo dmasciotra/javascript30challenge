@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+  const speed = document.querySelector('.speed');
+  const bar = speed.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+
+  let isDown = false;
+  const minSpeed = 0.5;
+  const maxSpeed = 4;
+
+  function getVideoSpeed(normalizedValue) {
+    return ((maxSpeed - minSpeed) * normalizedValue) + minSpeed;
+  }
+
+  function onMouseDown(e) {
+    isDown = true;
+  }
+  
+  function onMouseUp(e) {
+    isDown = false;
+    speed.classList.remove('active');
+  }
+  
+  function onMouseScroll(e) {
+    if (!isDown) return;
+    
+    e.preventDefault();
+    const currentY = e.pageY - speed.offsetTop;
+    const normalizedValue = currentY / this.offsetHeight;
+    const height = Math.round(normalizedValue * 100) + '%';
+    bar.style.height = height;
+    const newSpeed = getVideoSpeed(currentY / this.offsetHeight);
+    bar.textContent = newSpeed.toFixed(2) + 'x';
+    video.playbackRate = newSpeed;
+   }
+
+  speed.addEventListener('mousedown', onMouseDown);
+  speed.addEventListener('mousemove', onMouseScroll);
+  speed.addEventListener('mouseup', onMouseUp);
+</script>
+</body>
+</html>
